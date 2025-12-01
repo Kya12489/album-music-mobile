@@ -12,12 +12,32 @@ class AlbumsList extends StatefulWidget {
 }
 
 class _AlbumsListState extends State<AlbumsList> {
-  final List<InfoAlbum> listAlbum = InfoAlbum.listeAlbum;
+  final List<InfoAlbum> _initialList = List.from(InfoAlbum.listeAlbum);
+  List<InfoAlbum> listAlbum= InfoAlbum.listeAlbum;
+  
   void onFavoritePressed(InfoAlbum album){
     setState(() {
       album.setFavorie(!album.favoriAlbum);
     });
   }
+
+  
+  void recherche(String chaineCa) {
+     setState(() {
+       if (chaineCa.isEmpty) {
+
+        listAlbum = [..._initialList];
+       } else {
+
+         listAlbum = _initialList.where((album) {
+          String albumName = album.nom.toString().toLowerCase();
+          return albumName.contains(chaineCa.toLowerCase());
+         }).toList();
+       }
+     });
+   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +48,7 @@ class _AlbumsListState extends State<AlbumsList> {
         shrinkWrap: true,
         padding: const EdgeInsets.fromLTRB(2, 10, 2, 10),
         children: [
+
           for (InfoAlbum album in listAlbum)
             IconButton(
               onPressed: () {

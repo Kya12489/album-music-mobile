@@ -44,11 +44,8 @@ class _AlbumsState extends State<Album>{
                 ),
               ),
             ),
-            Container(child: Icon(infoAlbum.favoriAlbum ? Icons.star : Icons.star_border,color: infoAlbum.favoriAlbum ? Colors.black : Colors.black,),color: Colors.green,),
-                  
-                  
-                  
-                
+            Container(child: Icon(infoAlbum.favoriAlbum ? Icons.star : Icons.star_border,color:  Colors.green ,),),
+
           ],
         ),
       ),
