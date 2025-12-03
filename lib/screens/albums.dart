@@ -14,11 +14,14 @@ class AlbumsList extends StatefulWidget {
 class _AlbumsListState extends State<AlbumsList> {
   final List<InfoAlbum> _initialList = List.from(InfoAlbum.listeAlbum);
   List<InfoAlbum> listAlbum = [];
+  TextEditingController _rechercheController = TextEditingController();
 
   @override
   void initState() {
     // TODO: implement initState
-    recherche('');
+    setState(() {
+      listAlbum = [..._initialList];
+    });
     super.initState();
   }
 
@@ -28,15 +31,24 @@ class _AlbumsListState extends State<AlbumsList> {
     });
   }
 
-  void recherche(String chaineCa) {
+  void recherche() {
+    setState(() {
+      listAlbum = [];
+    });
+    String chaineCa = _rechercheController.value.text;
     setState(() {
       if (chaineCa.isEmpty) {
         listAlbum = [..._initialList];
       } else {
         listAlbum = _initialList.where((album) {
           String albumName = album.nom.toString().toLowerCase();
+
           return albumName.contains(chaineCa.toLowerCase());
         }).toList();
+        print(chaineCa);
+        for (InfoAlbum alb in listAlbum) {
+          print(alb.nom);
+        }
       }
     });
   }
@@ -45,40 +57,49 @@ class _AlbumsListState extends State<AlbumsList> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.blue,
-      alignment: Alignment.center,
-      child: ListView(
-        shrinkWrap: true,
-        padding: const EdgeInsets.fromLTRB(2, 10, 2, 10),
+      child: Column(
         children: [
-          TextField(
-            onChanged: (value) {
-              recherche(value);
-            },
-            decoration: const InputDecoration(
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(),
-              hintText: 'Rechercher un album',
-              prefixIcon: Icon(Icons.search),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: TextField(
+              controller: _rechercheController,
+              onChanged: (value) {
+                recherche();
+              },
+              decoration: const InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(),
+                hintText: 'Rechercher un album',
+                prefixIcon: Icon(Icons.search),
+              ),
             ),
           ),
-          for (InfoAlbum album in listAlbum)
-            IconButton(
-              onPressed: () {
-                SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => DetailsAlbum(
-                      album: album,
-                      onFavoritePressed: onFavoritePressed,
-                    ),
-                  ),
+          Expanded(
+            child: ListView.builder(
+              key: ValueKey(listAlbum), // ← Ajoutez cette clé
+              padding: const EdgeInsets.fromLTRB(2, 0, 2, 10),
+              itemCount: listAlbum.length,
+              itemBuilder: (context, index) {
+                final album = listAlbum[index];
+                return GestureDetector(
+                  onTap: () {
+                    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DetailsAlbum(
+                          album: album,
+                          onFavoritePressed: onFavoritePressed,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Album(infoAlbum: album),
                 );
               },
-
-              icon: Album(infoAlbum: album),
             ),
+          ),
         ],
       ),
     );

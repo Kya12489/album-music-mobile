@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:tp2/model/album.dart';
 
@@ -9,7 +8,7 @@ class Album extends StatefulWidget {
   State<Album> createState() => _AlbumsState();
 }
 
-class _AlbumsState extends State<Album>{
+class _AlbumsState extends State<Album> {
   late InfoAlbum infoAlbum;
   @override
   void initState() {
@@ -35,7 +34,7 @@ class _AlbumsState extends State<Album>{
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      infoAlbum.nom ,
+                      infoAlbum.nom,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Text(infoAlbum.description),
@@ -44,8 +43,12 @@ class _AlbumsState extends State<Album>{
                 ),
               ),
             ),
-            Container(child: Icon(infoAlbum.favoriAlbum ? Icons.star : Icons.star_border,color:  Colors.green ,),),
-
+            Container(
+              child: Icon(
+                infoAlbum.favoriAlbum ? Icons.star : Icons.star_border,
+                color: Colors.green,
+              ),
+            ),
           ],
         ),
       ),
