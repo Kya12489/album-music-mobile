@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:tp2/model/album.dart';
 import 'package:tp2/widget/album.dart';
 import 'package:tp2/widget/carouselSlider.dart';
 
@@ -13,27 +14,7 @@ class Accueil extends StatefulWidget {
 class _AccueilState extends State<Accueil> {
   int indexC = 0;
   CarouselSliderController _controller = CarouselSliderController();
-  final List<Map<String, String>> listAlbum = [
-    {
-      "nom": "Metallica",
-      "description":
-          "L'album marque une évolution importante dans le style du groupe. Les tempos sont plus lents, les morceaux plus courts et leurs structures beaucoup plus simples, aspirant ainsi à du simple rock. C'est principalement un album de heavy metal, et il n'y a plus beaucoup de traces de thrash metal. ",
-      "nomgroupe": "Metallica",
-      "image": "Metallica.jpg",
-    },
-    {
-      "nom": "Ride the lighting",
-      "description": "Ride the lighting est considéré comme ... ",
-      "nomgroupe": "Metallica",
-      "image": "Ridethelightning.jpg",
-    },
-    {
-      "nom": "Master of Puppets",
-      "description": "Master of Puppets est considéré comme ... ",
-      "nomgroupe": "Metallica",
-      "image": "Masterofpuppets.jpg",
-    },
-  ];
+  final List<InfoAlbum> listAlbum = List.from(InfoAlbum.listeAlbum);
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +62,19 @@ class _AccueilState extends State<Accueil> {
                 CarouselSliderC(
                   items: listAlbum.map((album) {
                     return Container(
-                      child: Image.asset("img/${album['image']}"),
+                      child: Image.network(album.image,
+                          width: 200,
+                          height: 200,
+                          fit: BoxFit.cover, errorBuilder:
+                              (context, error, stackTrace) {
+                        return Container(
+                          width: 200,
+                          height: 200,
+                          color: Colors.grey[200],
+                          alignment: Alignment.center,
+                          child: Text("No image found"),
+                        );
+                      } ),
                     );
                   }).toList(),
                 ),

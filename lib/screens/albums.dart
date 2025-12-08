@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:tp2/Dataclasse_API/albumApi.Dart';
 import 'package:tp2/model/album.dart';
 import 'package:tp2/screens/detailsAlbum.dart';
+import 'package:tp2/service/api/album/connexionAlbum.dart';
 import 'package:tp2/widget/album.dart';
 
 class AlbumsList extends StatefulWidget {
@@ -12,18 +14,22 @@ class AlbumsList extends StatefulWidget {
 }
 
 class _AlbumsListState extends State<AlbumsList> {
-  final List<InfoAlbum> _initialList = List.from(InfoAlbum.listeAlbum);
+  List<InfoAlbum> _initialList = List.from(InfoAlbum.listeAlbum);
   List<InfoAlbum> listAlbum = [];
   TextEditingController _rechercheController = TextEditingController();
-
+  List<AlbumApi>? listeAlbumApi = [];
   @override
   void initState() {
-    // TODO: implement initState
+    
     setState(() {
       listAlbum = [..._initialList];
     });
+    for(InfoAlbum al in listAlbum){
+      debugPrint(al.image);
+    }
     super.initState();
   }
+
 
   void onFavoritePressed(InfoAlbum album) {
     setState(() {
@@ -79,6 +85,7 @@ class _AlbumsListState extends State<AlbumsList> {
                 final album = listAlbum[index];
                 return GestureDetector(
                   onTap: () {
+                    
                     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
                     Navigator.push(
                       context,

@@ -12,13 +12,17 @@ class _AlbumsState extends State<Album> {
   late InfoAlbum infoAlbum;
   @override
   void initState() {
+
     infoAlbum = widget.infoAlbum!;
+    
     // TODO: implement initState
     super.initState();
+    
   }
 
   @override
   Widget build(BuildContext context) {
+    
     return Container(
       padding: EdgeInsets.all(2),
 
@@ -26,7 +30,26 @@ class _AlbumsState extends State<Album> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Image.asset("img/${infoAlbum.image}"),
+            
+            Padding(
+              padding: EdgeInsets.all(5),
+              child:  Image.network(
+                      infoAlbum.image,
+                      width: 200,
+                      height: 200,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          width: 200,
+                          height: 200,
+                          color: Colors.grey[200],
+                          alignment: Alignment.center,
+                          child: Text("No image found"),
+                        );
+                      },
+                    )
+                  ,
+            ),
             Expanded(
               child: Container(
                 padding: EdgeInsets.all(5),

@@ -38,7 +38,22 @@ class DetailsalbumState extends State<DetailsAlbum> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Image.asset("img/${album.image}"),
+                  children: [ Image.network(
+                      album.image,
+                      width: 300,
+                      height: 300,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          width: 300,
+                          height: 300,
+                          color: Colors.grey[200],
+                          alignment: Alignment.center,
+                          child: Text("No image found"),
+                        );
+                      },
+                    )
+                 ,
                 IconButton(
                   icon: Container(child: Icon(album.favoriAlbum ? Icons.star : Icons.star_border,),color: Colors.green,),
                   color: album.favoriAlbum ? Colors.black : Colors.black,
