@@ -32,9 +32,7 @@ class _AlbumsListState extends State<AlbumsList> {
   }
 
   void recherche() {
-    setState(() {
-      listAlbum = [];
-    });
+    
     String chaineCa = _rechercheController.value.text;
     setState(() {
       if (chaineCa.isEmpty) {
@@ -45,10 +43,7 @@ class _AlbumsListState extends State<AlbumsList> {
 
           return albumName.contains(chaineCa.toLowerCase());
         }).toList();
-        print(chaineCa);
-        for (InfoAlbum alb in listAlbum) {
-          print(alb.nom);
-        }
+        
       }
     });
   }
