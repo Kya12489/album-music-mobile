@@ -18,4 +18,33 @@ class ConnexionAlbumAPI {
   return null;
   }
   
+  
+  static  Future<bool> createAlbum(String nomAlbum, String descAlbum,String artisteAlbum, bool groupeAlbum, String pochetteAlbum, String compoAlbum,String linkyoualbum,String linkartistealbum) async {
+  final response = await http.post(
+    Uri.parse('http://192.168.203.10:81/api/albums'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      "idalbum": "0",  //Auto Incrément
+      "nomalbum": nomAlbum,
+      "descalbum": descAlbum,
+      "artistealbum": artisteAlbum,
+      "groupealbum": groupeAlbum.toString(),
+      "pochettealbum": pochetteAlbum,
+      "compositeuralbum": compoAlbum,
+      "linkyoualbum":linkyoualbum,
+      "linkartistealbum":linkartistealbum
+    }),
+  );
+
+  if (response.statusCode == 201) {
+    // si 201 alors l’enregistrement est bien créé
+    return true;
+  } else {
+     return false;
+     
+  }
+}
+
 }

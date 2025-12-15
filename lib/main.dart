@@ -1,30 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tp2/Dataclasse_API/albumApi.Dart';
 import 'package:tp2/model/album.dart';
 import 'package:tp2/screens/accueil.dart';
 import 'package:tp2/screens/albums.dart';
+import 'package:tp2/screens/formulaireAlbum.dart';
 import 'package:tp2/screens/setting.dart';
 import 'package:tp2/service/api/album/connexionAlbum.dart';
 import 'package:tp2/widget/AppBar.dart';
 import 'package:tp2/widget/bottomBar.dart';
 
 void initializeAlbums() async {
-    List<AlbumApi>? albumsApi = await ConnexionAlbumAPI().getAlbums() ;
-    for(AlbumApi albumApi in albumsApi!){
-      debugPrint(albumApi.pochettealbum);
-      InfoAlbum(
-        description: albumApi.descalbum,
-        nom: albumApi.nomalbum,
-        nomGroupe: albumApi.artistealbum,
-        image: albumApi.pochettealbum ?? ""
-      );
-    }
+    try{
+      List<AlbumApi>? albumsApi = await ConnexionAlbumAPI().getAlbums() ;
+      for(AlbumApi albumApi in albumsApi!){
+        debugPrint(albumApi.pochettealbum);
+        InfoAlbum(
+          description: albumApi.descalbum,
+          nom: albumApi.nomalbum,
+          nomGroupe: albumApi.artistealbum,
+          image: albumApi.pochettealbum ?? ""
+        );
+      }
+    }on Exception catch(_){}
+    runApp(const MyApp());
   }
 void main() {
   initializeAlbums();
   
   
-  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -85,8 +89,17 @@ class _MyHomePageState extends State<MyHomePage> {
       ][currentPageIndex],
       
       floatingActionButton: currentPageIndex==0?FloatingActionButton(
-        onPressed: (){},
-        tooltip: 'Increment',
+        onPressed: (){ 
+          SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FormulaireAlbum(),
+                      ),
+                    );
+          
+          },
+        tooltip: 'Créer un album',
         child: const Icon(Icons.add),
       ):null, 
       bottomNavigationBar: Bottombar_P(onDestinationSelected: onDestinationSelected,currentIndex: currentPageIndex,),

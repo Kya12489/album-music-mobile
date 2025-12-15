@@ -1,7 +1,5 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:tp2/model/album.dart';
-import 'package:tp2/widget/album.dart';
 import 'package:tp2/widget/carouselSlider.dart';
 
 class Accueil extends StatefulWidget {
@@ -13,7 +11,6 @@ class Accueil extends StatefulWidget {
 
 class _AccueilState extends State<Accueil> {
   int indexC = 0;
-  CarouselSliderController _controller = CarouselSliderController();
   final List<InfoAlbum> listAlbum = List.from(InfoAlbum.listeAlbum);
 
   @override
