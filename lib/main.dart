@@ -16,6 +16,7 @@ void initializeAlbums() async {
       for(AlbumApi albumApi in albumsApi!){
         debugPrint(albumApi.pochettealbum);
         InfoAlbum(
+          id: albumApi.idalbum,
           description: albumApi.descalbum,
           nom: albumApi.nomalbum,
           nomGroupe: albumApi.artistealbum,

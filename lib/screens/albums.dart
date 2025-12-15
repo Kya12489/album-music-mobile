@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:tp2/Dataclasse_API/albumApi.Dart';
 import 'package:tp2/model/album.dart';
 import 'package:tp2/screens/detailsAlbum.dart';
-import 'package:tp2/service/api/album/connexionAlbum.dart';
 import 'package:tp2/widget/album.dart';
 
 class AlbumsList extends StatefulWidget {

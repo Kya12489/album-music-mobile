@@ -28,7 +28,7 @@ class _FormulaireAlbumState extends State<FormulaireAlbum> {
 
   bool createAlbum()  {
     try{
-      InfoAlbum(description: _descAlbum,nom: _nomAlbum,nomGroupe: _artisteAlbum,image: _pochetteAlbum);
+      InfoAlbum(id:InfoAlbum.listeAlbum.last.id+1,description: _descAlbum,nom: _nomAlbum,nomGroupe: _artisteAlbum,image: _pochetteAlbum);
       ConnexionAlbumAPI.createAlbum(_nomAlbum,_descAlbum,_artisteAlbum,_groupeAlbum,_pochetteAlbum,_compoAlbum,_youtubeAlbum,_lienArtisteAlbum);
       Navigator.pop(context);
       return true;
