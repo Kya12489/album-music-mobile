@@ -24,9 +24,7 @@ class _AlbumsListState extends State<AlbumsList> {
     setState(() {
       listAlbum = [..._initialList];
     });
-    for(InfoAlbum al in listAlbum){
-      debugPrint(al.image);
-    }
+
     super.initState();
   }
 
