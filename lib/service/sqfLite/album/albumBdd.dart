@@ -13,21 +13,29 @@ class AlbumBdd {
   });
 
   Future<void> addFavorite(int albumId) async {
-    final db = await albumBdd;
-    await db.insert(
-      nomBdd,
-      {'id': albumId},
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    try {
+      final db = await albumBdd;
+      await db.insert(
+        nomBdd,
+        {'id': albumId},
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    } catch (e) {
+      print('Erreur lors de l\'ajout aux favoris : $e');
+    }
     
   }
 
   Future<void> removeFavorite(int albumId) async {
-    final db = await albumBdd;
-    await db.delete(
-      nomBdd,
-      where: 'id = ?',
-      whereArgs: [albumId],
-    );
+    try {
+      final db = await albumBdd;
+      await db.delete(
+        nomBdd,
+        where: 'id = ?',
+        whereArgs: [albumId],
+      );
+    } catch (e) {
+      print('Erreur lors de la suppression des favoris : $e');
+    }
   }
 }

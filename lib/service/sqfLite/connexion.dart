@@ -1,4 +1,3 @@
-import 'dart:nativewrappers/_internal/vm/bin/vmservice_io.dart';
 
 import 'package:sqflite/sqflite.dart';
 class ConnexionBdd{
