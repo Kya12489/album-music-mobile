@@ -20,7 +20,8 @@ void initializeAlbums() async {
           description: albumApi.descalbum,
           nom: albumApi.nomalbum,
           nomGroupe: albumApi.artistealbum,
-          image: albumApi.pochettealbum ?? ""
+          image: albumApi.pochettealbum ?? "",
+          ytbUrl: albumApi.linkyoualbum ?? "",
         );
       }
     }on Exception catch(_){}

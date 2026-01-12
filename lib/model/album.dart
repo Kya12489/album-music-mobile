@@ -8,6 +8,7 @@ class InfoAlbum {
   final String description;
   final String image;
   final String nomGroupe;
+  final String ytbUrl;
   bool favoriAlbum;
   AlbumBdd bdd = AlbumBdd();
 
@@ -17,7 +18,8 @@ class InfoAlbum {
     required this.description,
     required this.nomGroupe,
     required this.image,
-    this.favoriAlbum = false
+    this.favoriAlbum = false,
+    this.ytbUrl = "",
     
   }){
     InfoAlbum.listeAlbum.add(this);
