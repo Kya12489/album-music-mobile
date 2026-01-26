@@ -1,35 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:tp2/model/album.dart';
 import 'package:tp2/widget/AppBar.dart';
-import 'package:video_player/video_player.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class DetailsAlbum extends StatefulWidget {
   final InfoAlbum album;
   final Function onFavoritePressed;
-
-  const DetailsAlbum({super.key, required this.album, required this.onFavoritePressed});
+  
+  const DetailsAlbum({
+    super.key, 
+    required this.album,
+    required this.onFavoritePressed
+  });
 
   @override
   State<DetailsAlbum> createState() => _DetailsAlbumState();
 }
 
 class _DetailsAlbumState extends State<DetailsAlbum> {
-  late InfoAlbum album;
-  late VideoPlayerController _controller;
-  late Future<void> _initializeVideoPlayerFuture;
+  YoutubePlayerController? _controller;
+  String? _videoId;
 
   @override
   void initState() {
     super.initState();
-    album = widget.album;
-    _controller = VideoPlayerController.network(album.ytbUrl);
-    _initializeVideoPlayerFuture = _controller.initialize();
-    _controller.setLooping(true);
+    
+    // Extract video ID from YouTube URL using the correct method
+    _videoId = YoutubePlayerController.convertUrlToId(widget.album.ytbUrl);
+    
+    // Initialize controller with fromVideoId constructor if we have an id
+    if (_videoId != null) {
+      _controller = YoutubePlayerController.fromVideoId(
+        videoId: _videoId!,
+        params: const YoutubePlayerParams(
+          showControls: true,
+          showFullscreenButton: true,
+        ),
+      );
+    }
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller?.close(); // Use close() instead of dispose() for youtube_player_iframe
     super.dispose();
   }
 
@@ -38,7 +51,7 @@ class _DetailsAlbumState extends State<DetailsAlbum> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
-        child: AppBar_P(title: "Information sur l'album ${album.nom}"),
+        child: AppBar_P(title: "Information sur l'album ${widget.album.nom}"),
       ),
       body: Center(
         child: Padding(
@@ -47,32 +60,20 @@ class _DetailsAlbumState extends State<DetailsAlbum> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                FutureBuilder(
-                  future: _initializeVideoPlayerFuture,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      return SizedBox(
-                        width: 300,
-                        height: 200,
-                        child: AspectRatio(
-                          aspectRatio: _controller.value.aspectRatio,
-                          child: VideoPlayer(_controller),
-                        ),
-                      );
-                    } else {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  },
-                ),
-                const SizedBox(height: 12),
+              
+                _videoId != null? YoutubePlayer(
+                  controller: _controller!,
+                  aspectRatio: 16 / 9, // Required parameter
+                ) : const Text('La vidéo YouTube est indisponible.'),
+                const SizedBox(height: 16),
+                
+                
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.network(
-                      album.image,
+                      widget.album.image,
                       width: 300,
                       height: 300,
                       fit: BoxFit.cover,
@@ -88,19 +89,32 @@ class _DetailsAlbumState extends State<DetailsAlbum> {
                     ),
                     const SizedBox(width: 8),
                     IconButton(
-                      icon: Icon(album.favoriAlbum ? Icons.star : Icons.star_border),
+                      icon: Icon(
+                        widget.album.favoriAlbum ? Icons.star : Icons.star_border,
+                      ),
                       color: Colors.green,
+                      iconSize: 32,
                       onPressed: () {
                         setState(() {
-                          widget.onFavoritePressed(album);
+                          widget.onFavoritePressed(widget.album);
                         });
                       },
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
-                Text(album.nom),
-                const SizedBox(height: 8),
+                const SizedBox(height: 16),
+                
+                // Album Name
+                Text(
+                  widget.album.nom,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                
+                // Album Information
                 Container(
                   width: MediaQuery.of(context).size.width,
                   color: Colors.green,
@@ -109,11 +123,31 @@ class _DetailsAlbumState extends State<DetailsAlbum> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Groupe : ${album.nomGroupe}"),
+                        Text(
+                          "Groupe : ${widget.album.nomGroupe}",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
                         const SizedBox(height: 8),
-                        const Text("Information Supplementaire"),
+                        const Text(
+                          "Information Supplémentaire",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
                         const SizedBox(height: 8),
-                        Text(album.description),
+                        Text(
+                          widget.album.description,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                          ),
+                        ),
                       ],
                     ),
                   ),

@@ -14,7 +14,7 @@ void initializeAlbums() async {
     try{
       List<AlbumApi>? albumsApi = await ConnexionAlbumAPI().getAlbums() ;
       for(AlbumApi albumApi in albumsApi!){
-        debugPrint(albumApi.pochettealbum);
+        
         InfoAlbum(
           id: albumApi.idalbum,
           description: albumApi.descalbum,
@@ -23,6 +23,7 @@ void initializeAlbums() async {
           image: albumApi.pochettealbum ?? "",
           ytbUrl: albumApi.linkyoualbum ?? "",
         );
+        debugPrint(albumApi.linkyoualbum);
       }
     }on Exception catch(_){}
     runApp(const MyApp());
