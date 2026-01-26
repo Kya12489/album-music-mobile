@@ -22,6 +22,7 @@ void initializeAlbums() async {
           nomGroupe: albumApi.artistealbum,
           image: albumApi.pochettealbum ?? "",
           ytbUrl: albumApi.linkyoualbum ?? "",
+          artisteUrl: albumApi.linkartistealbum,
         );
         debugPrint(albumApi.linkyoualbum);
       }

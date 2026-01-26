@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tp2/model/album.dart';
 import 'package:tp2/widget/AppBar.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailsAlbum extends StatefulWidget {
   final InfoAlbum album;
@@ -61,10 +62,7 @@ class _DetailsAlbumState extends State<DetailsAlbum> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
               
-                _videoId != null? YoutubePlayer(
-                  controller: _controller!,
-                  aspectRatio: 16 / 9, // Required parameter
-                ) : const Text('La vidéo YouTube est indisponible.'),
+                
                 const SizedBox(height: 16),
                 
                 
@@ -88,7 +86,9 @@ class _DetailsAlbumState extends State<DetailsAlbum> {
                       },
                     ),
                     const SizedBox(width: 8),
-                    IconButton(
+                    Column(
+                      children: [
+                        IconButton(
                       icon: Icon(
                         widget.album.favoriAlbum ? Icons.star : Icons.star_border,
                       ),
@@ -100,6 +100,28 @@ class _DetailsAlbumState extends State<DetailsAlbum> {
                         });
                       },
                     ),
+                    widget.album.artisteUrl.isNotEmpty
+                    ? IconButton(
+                        onPressed: () async {
+                          final url = Uri.parse(widget.album.artisteUrl);
+                          if (await canLaunchUrl(url)) {
+                            await launchUrl(url);
+                          }
+                        },
+                        
+                        icon: const Icon(Icons.web),
+                        color: Colors.green,
+                      )
+                    : IconButton(
+                        onPressed: () async {
+                          
+                        },
+                        
+                        icon: const Icon(Icons.web),
+                        color: Colors.grey,
+                      ),
+                      ],
+                    )
                   ],
                 ),
                 const SizedBox(height: 16),
@@ -152,6 +174,11 @@ class _DetailsAlbumState extends State<DetailsAlbum> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 16),
+                _videoId != null? YoutubePlayer(
+                  controller: _controller!,
+                  aspectRatio: 16 / 9, // Required parameter
+                ) : const Text('La vidéo YouTube est indisponible.'),
               ],
             ),
           ),

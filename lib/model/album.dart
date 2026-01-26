@@ -9,6 +9,7 @@ class InfoAlbum {
   final String image;
   final String nomGroupe;
   final String ytbUrl;
+  final String artisteUrl;
   bool favoriAlbum;
   AlbumBdd bdd = AlbumBdd();
 
@@ -20,6 +21,7 @@ class InfoAlbum {
     required this.image,
     this.favoriAlbum = false,
     this.ytbUrl = "",
+    this.artisteUrl = "",
     
   }){
     InfoAlbum.listeAlbum.add(this);
