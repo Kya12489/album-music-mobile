@@ -112,12 +112,10 @@ class _DetailsAlbumState extends State<DetailsAlbum> {
                         icon: const Icon(Icons.web),
                         color: Colors.green,
                       )
-                    : IconButton(
-                        onPressed: () async {
-                          
-                        },
+                    : Icon(
                         
-                        icon: const Icon(Icons.web),
+                        
+                        Icons.web,
                         color: Colors.grey,
                       ),
                       ],

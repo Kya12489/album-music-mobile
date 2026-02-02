@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tp2/model/album.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Album extends StatefulWidget {
   final InfoAlbum? infoAlbum;
@@ -67,10 +68,33 @@ class _AlbumsState extends State<Album> {
               ),
             ),
             Container(
-              child: Icon(
+              child: Column( 
+                children: [
+
+                
+                Icon(
                 infoAlbum.favoriAlbum ? Icons.star : Icons.star_border,
-                color: Colors.green,
+                color: Colors.green,),
+                infoAlbum.artisteUrl.isNotEmpty? IconButton(
+                        onPressed: () async {
+                          final url = Uri.parse(infoAlbum.artisteUrl);
+                          if (await canLaunchUrl(url)) {
+                            await launchUrl(url);
+                          }
+                        },
+                        
+                        icon: const Icon(Icons.web),
+                        color: Colors.green,
+                      )
+                    : Icon(
+                        
+                        
+                        Icons.web,
+                        color: Colors.grey,
+                      ),
+                ]
               ),
+              
             ),
           ],
         ),
