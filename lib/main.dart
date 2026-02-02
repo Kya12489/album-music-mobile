@@ -20,9 +20,11 @@ void initializeAlbums() async {
           description: albumApi.descalbum,
           nom: albumApi.nomalbum,
           nomGroupe: albumApi.artistealbum,
+          estUnGroupe: albumApi.groupealbum,
           image: albumApi.pochettealbum ?? "",
           ytbUrl: albumApi.linkyoualbum ?? "",
           artisteUrl: albumApi.linkartistealbum,
+          compoAlbum: albumApi.compositeuralbum,
         );
         debugPrint(albumApi.linkyoualbum);
       }

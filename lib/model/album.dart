@@ -4,12 +4,14 @@ class InfoAlbum {
   static List<InfoAlbum> listeAlbum = [];
 
   final int id;
-  final String nom;
-  final String description;
-  final String image;
-  final String nomGroupe;
-  final String ytbUrl;
-  final String artisteUrl;
+  String nom;
+  String description;
+  String image;
+  String nomGroupe;
+  String ytbUrl;
+  String artisteUrl;
+  String compoAlbum;
+  bool estUnGroupe;
   bool favoriAlbum;
   AlbumBdd bdd = AlbumBdd();
 
@@ -19,12 +21,26 @@ class InfoAlbum {
     required this.description,
     required this.nomGroupe,
     required this.image,
+    required this.estUnGroupe,
+    required this.compoAlbum,
     this.favoriAlbum = false,
     this.ytbUrl = "",
     this.artisteUrl = "",
     
   }){
     InfoAlbum.listeAlbum.add(this);
+  }
+
+  void editInfo(String nomAlbum, String descAlbum,String artisteAlbum, bool groupeAlbum, String pochetteAlbum, String compoAlbum,String linkyoualbum,String linkartistealbum){
+    this.nom = nomAlbum;
+    this.description = descAlbum;
+    this.nomGroupe = artisteAlbum;
+    this.estUnGroupe = groupeAlbum;
+    this.image = pochetteAlbum;
+    this.compoAlbum = compoAlbum;
+    this.ytbUrl = linkyoualbum;
+    this.artisteUrl = linkartistealbum;
+
   }
 
   void setFavorie(bool value){

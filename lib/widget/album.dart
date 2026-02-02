@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tp2/model/album.dart';
+import 'package:tp2/screens/formulaireAlbum.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Album extends StatefulWidget {
@@ -70,11 +72,10 @@ class _AlbumsState extends State<Album> {
             Container(
               child: Column( 
                 children: [
-
-                
                 Icon(
                 infoAlbum.favoriAlbum ? Icons.star : Icons.star_border,
                 color: Colors.green,),
+
                 infoAlbum.artisteUrl.isNotEmpty? IconButton(
                         onPressed: () async {
                           final url = Uri.parse(infoAlbum.artisteUrl);
@@ -92,6 +93,22 @@ class _AlbumsState extends State<Album> {
                         Icons.web,
                         color: Colors.grey,
                       ),
+                  IconButton(
+                    icon: Icon(infoAlbum.favoriAlbum ? Icons.edit : Icons.edit_outlined),
+                    color: Colors.green,
+                    onPressed: (){
+                       
+                      SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => FormulaireAlbum(infoAlbum: infoAlbum,),
+                                  ),
+                                );
+                      
+                      
+                    },
+                  ),
                 ]
               ),
               

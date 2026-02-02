@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tp2/model/album.dart';
+import 'package:tp2/screens/formulaireAlbum.dart';
 import 'package:tp2/widget/AppBar.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -118,6 +120,22 @@ class _DetailsAlbumState extends State<DetailsAlbum> {
                         Icons.web,
                         color: Colors.grey,
                       ),
+                      IconButton(
+                    icon: Icon(widget.album.favoriAlbum ? Icons.edit : Icons.edit_outlined),
+                    color: Colors.green,
+                    onPressed: (){
+                       
+                      SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => FormulaireAlbum(infoAlbum: widget.album,),
+                                  ),
+                                );
+                      
+                      
+                    },
+                  ),
                       ],
                     )
                   ],
